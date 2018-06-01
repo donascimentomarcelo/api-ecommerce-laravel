@@ -35,3 +35,13 @@ $factory->define(\App\Entities\Product::class, function (Faker $faker) {
         'price' => $faker->numberBetween(10, 50)
     ];
 });
+
+$factory->define(\App\Entities\Client::class, function (Faker $faker) {
+    return [
+        'phone' => $faker->phoneNumber,
+        'address' => $faker->address,
+        'city' => $faker->city,
+        'state' => $faker->state,
+        'zipcode' => $faker->postcode
+    ];
+});
