@@ -14,6 +14,6 @@ class CategoryService
 
     public function list()
     {
-        return $this->categoryRepository->all();
+        return $this->categoryRepository->paginate(5);
     }
 }
