@@ -27,3 +27,11 @@ $factory->define(\App\Entities\Category::class, function (Faker $faker) {
         'name' => $faker->word,
     ];
 });
+
+$factory->define(\App\Entities\Product::class, function (Faker $faker) {
+    return [
+        'name' => $faker->word,
+        'description' => $faker->sentence,
+        'price' => $faker->numberBetween(10, 50)
+    ];
+});

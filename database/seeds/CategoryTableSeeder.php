@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 
 use \App\Entities\Category;
+use \App\Entities\Product;
 
 class CategoryTableSeeder extends Seeder
 {
@@ -13,6 +14,11 @@ class CategoryTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Category::class, 10)->create();
+        factory(Category::class, 10)->create()->each(function($category){
+            for($i = 0; $i <= 10; $i ++)
+            {
+                $category->products()->save(factory(Product::class)->make());
+            }
+        });
     }
 }
