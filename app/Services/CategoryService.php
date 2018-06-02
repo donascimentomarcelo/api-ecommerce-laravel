@@ -16,4 +16,9 @@ class CategoryService
     {
         return $this->categoryRepository->paginate(5);
     }
+
+    public function create($category)
+    {
+        return $this->categoryRepository->create($category);
+    }
 }

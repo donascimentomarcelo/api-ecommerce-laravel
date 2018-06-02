@@ -42,7 +42,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $this->categoryService->create($request->all());
     }
 
     /**
