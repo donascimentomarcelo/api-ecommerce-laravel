@@ -26,16 +26,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -46,6 +36,7 @@ class CategoryController extends Controller
         return $this->categoryService->create($request->all());
     }
 
+    
     /**
      * Display the specified resource.
      *
@@ -54,20 +45,20 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->categoryService->find($id);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Find by name a specified resource.
      *
-     * @param  int  $id
+     * @param  int  $name
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function findByName($name)
     {
         //
     }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -75,19 +66,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
-        //
+        return $this->categoryService->update($request->all(), $id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
