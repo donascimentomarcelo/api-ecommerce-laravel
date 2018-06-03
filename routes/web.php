@@ -11,12 +11,14 @@
 |
 */
 
-Route::resource('category', 'CategoryController')->except([
-    'create', 'edit', 'destroy'
-]);
-Route::get('category/findByName/{category}',['uses' => 'CategoryController@findByName', 'as' => 'category.findByName']);
-Route::resource('product', 'ProductController')->except([
-    'create', 'edit', 'destroy'
-]);
-Route::get('product/findByName/{product}',['uses' => 'ProductController@findByName', 'as' => 'product.findByName']);
-Route::get('product/findByCategory/{product}',['uses' => 'ProductController@findByCategory', 'as' => 'product.findByCategory']);
+Route::group(['prefix' => 'api'], function() {
+    Route::resource('category', 'CategoryController')->except([
+        'create', 'edit', 'destroy'
+    ]);
+    Route::get('category/findByName/{category}',['uses' => 'CategoryController@findByName', 'as' => 'category.findByName']);
+    Route::resource('product', 'ProductController')->except([
+        'create', 'edit', 'destroy'
+    ]);
+    Route::get('product/findByName/{product}',['uses' => 'ProductController@findByName', 'as' => 'product.findByName']);
+    Route::get('product/findByCategory/{product}',['uses' => 'ProductController@findByCategory', 'as' => 'product.findByCategory']);
+});
