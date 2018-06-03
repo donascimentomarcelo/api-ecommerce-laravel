@@ -56,7 +56,7 @@ class CategoryController extends Controller
      */
     public function findByName($name)
     {
-        //
+        return $this->categoryService->findByName($name);
     }
     
     /**

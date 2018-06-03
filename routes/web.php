@@ -11,6 +11,7 @@
 |
 */
 
-Route::resources([
-    'category'  =>  'CategoryController'
+Route::resource('category', 'CategoryController')->except([
+    'create', 'store', 'update', 'destroy'
 ]);
+Route::get('category/findByName/{category}',['uses' => 'CategoryController@findByName', 'as' => 'category.findByName']);

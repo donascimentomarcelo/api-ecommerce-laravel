@@ -2,6 +2,7 @@
 
 namespace App\Services;
 use \App\Repositories\CategoryRepository;
+use \App\Entities\Category;
 
 class CategoryService 
 {
@@ -29,6 +30,18 @@ class CategoryService
 
     public function find($id)
     {
-        return $this->categoryRepository->find($id);
+        $res = Category::find($id);
+        if(!$res)
+        {
+            return response()->json([
+                'message' => 'A categoria de código '. $id .' não encontrada',
+            ],404);
+        }
+        return $res;
+    }
+
+    public function findByName($name)
+    {
+        return Category::orWhere('name', 'like', '%' . $name . '%')->get();
     }
 }
