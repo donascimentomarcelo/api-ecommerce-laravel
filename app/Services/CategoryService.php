@@ -34,7 +34,7 @@ class CategoryService
         if(!$res)
         {
             return response()->json([
-                'message' => 'A categoria de código '. $id .' não encontrada',
+                'message' => 'A categoria de código '. $id .' não foi encontrada',
             ],404);
         }
         return $res;
