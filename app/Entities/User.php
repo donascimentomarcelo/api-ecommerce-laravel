@@ -14,7 +14,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
  *
  * @package namespace App\Entities;
  */
-class User extends Model implements Transformable, AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
+class User extends Model implements Transformable //, AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
     use TransformableTrait;
 
@@ -23,7 +23,7 @@ class User extends Model implements Transformable, AuthenticatableContract, Auth
      *
      * @var array
      */
-        use Notifiable, Authenticatable, Authorizable, CanResetPassword;
+        // use Notifiable, Authenticatable, Authorizable, CanResetPassword;
 
     /**
      * The attributes that are mass assignable.
