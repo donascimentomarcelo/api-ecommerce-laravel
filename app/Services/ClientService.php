@@ -21,4 +21,17 @@ class ClientService
     {
         return $this->userRepository->with(['client'])->paginate(10);
     }
+
+    public function create($user)
+    {
+        $user['password'] = bcrypt($user['password']);
+
+        $userSaved = $this->userRepository->create($user);
+        
+        $user['client']['user_id'] = $userSaved['id'];
+
+        $userSaved['client'] = $this->clientRepository->create($user['client']);
+
+        return $userSaved;
+    }
 }

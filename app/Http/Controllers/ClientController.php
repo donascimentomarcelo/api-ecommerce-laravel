@@ -32,7 +32,7 @@ class ClientController extends Controller
      */
     public function store(ClientRequest $request)
     {
-        return response()->json(true);
+        return $this->clientService->create($request->all());
     }
 
     /**
