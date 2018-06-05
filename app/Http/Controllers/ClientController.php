@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\Services\ClientService;
 use \App\Http\Requests\ClientRequest;
+use \App\Http\Requests\ClientUpdateRequest;
 
 class ClientController extends Controller
 {
@@ -43,7 +44,18 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->clientService->find($id);
+    }
+
+    /**
+     * Display the specified client.
+     *
+     * @param string $name
+     * @return void
+     */
+    public function findByName($name)
+    {
+        return $this->clientService->findByName($name);
     }
 
     /**
@@ -53,9 +65,9 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ClientUpdateRequest $request, $id)
     {
-        //
+        return $this->clientService->update($request->all(), $id);
     }
 
 }

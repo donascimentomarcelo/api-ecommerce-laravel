@@ -34,4 +34,32 @@ class ClientService
 
         return $userSaved;
     }
+
+    public function find($id)
+    {
+        $res = User::with('client')->find($id);
+        if(!$res)
+        {
+            return response()->json([
+                'message' => 'O usuário de código '. $id .' não foi encontrado',
+            ],404);
+        }
+        return $res;
+    }
+
+    public function findByName($name)
+    {
+        return User::with('client')->orWhere('name', 'like', '%' . $name . '%')->get();
+    }
+
+    public function update($user, $id)
+    {
+        $user['password'] = bcrypt($user['password']);
+
+        $userUpdated = $this->userRepository->with(['client'])->update($user, $id);
+        
+        $userUpdated['client'] = $this->clientRepository->update($user['client'], $userUpdated['client']['id']);
+        
+        return $userUpdated;
+    }
 }
