@@ -15,13 +15,7 @@ class OrderService
 
     public function list()
     {
-        $orders = $this->orderRepository->with(['items'])->paginate(10);
-        foreach ($orders as $order) {
-            $order->items->each(function($item){
-                $item->product;
-            });
-            return $order;
-        }
+        return $this->orderRepository->with(['items'])->paginate(10);
     }
 
     public function find($id)
