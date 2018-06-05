@@ -27,4 +27,8 @@ Route::group(['prefix' => 'api'], function() {
         'create', 'edit', 'destroy'
     ]);
     Route::get('client/findByName/{client}',['uses' => 'ClientController@findByName', 'as' => 'client.findByName']);  
+
+    Route::resource('order', 'OrderController')->except([
+        'create', 'edit', 'destroy'
+    ]);
 });
