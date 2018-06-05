@@ -45,3 +45,17 @@ $factory->define(\App\Entities\Client::class, function (Faker $faker) {
         'zipcode' => $faker->postcode
     ];
 });
+
+$factory->define(\App\Entities\Order::class, function (Faker $faker) {
+    return [
+        'user_id'   => rand(1, 10),
+        'total'     => rand(10, 200),
+        'status'    => 0,
+    ];
+});
+
+$factory->define(\App\Entities\OrderItem::class, function (Faker $faker) {
+    return [
+
+    ];
+});
