@@ -37,8 +37,10 @@ class ClientService
 
     public function find($id)
     {
-        $res = User::with('client')->find($id);
-        if(!$res)
+        $data = $this->userRepository->with('client')->findByfield('id', $id);
+        // $res = User::with('client')->find($id);
+        $res = json_decode($data, true);
+        if(empty($res))
         {
             return response()->json([
                 'message' => 'O usuário de código '. $id .' não foi encontrado',
@@ -49,7 +51,7 @@ class ClientService
 
     public function findByName($name)
     {
-        return User::with('client')->orWhere('name', 'like', '%' . $name . '%')->get();
+        return $this->userRepository->with('client')->findWhere(['name'=>['name', 'like', '%' . $name . '%']]);
     }
 
     public function update($user, $id)
