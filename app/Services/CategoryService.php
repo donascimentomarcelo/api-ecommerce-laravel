@@ -30,8 +30,9 @@ class CategoryService
 
     public function find($id)
     {
-        $res = Category::find($id);
-        if(!$res)
+        $data = $this->categoryRepository->findByField('id', $id);
+        $res = json_decode($data, true);
+        if(empty($res))
         {
             return response()->json([
                 'message' => 'A categoria de código '. $id .' não foi encontrada',
@@ -42,6 +43,6 @@ class CategoryService
 
     public function findByName($name)
     {
-        return Category::orWhere('name', 'like', '%' . $name . '%')->get();
+        return $this->categoryRepository->findWhere(['name'=>['name', 'like', '%' . $name . '%']]);
     }
 }
