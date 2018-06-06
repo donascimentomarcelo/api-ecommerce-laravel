@@ -25,7 +25,8 @@ class ProductService
 
     public function find($id)
     {
-        $res = Product::find($id);
+        $data = $this->productRepository->findByField('id', $id);
+        $res = json_decode($data, true);
         if(!$res)
         {
             return response()->json([
@@ -42,11 +43,11 @@ class ProductService
 
     public function findByName($name)
     {
-        return Product::orWhere('name', 'like', '%' . $name . '%')->get();
+        return $this->productRepository->findWhere(['name'=> ['name', 'like', '%' . $name . '%']]);
     }
 
     public function findByCategory($idCategory)
     {
-        return Product::orWhere('category_id', 'like', '%' .$idCategory. '%')->get();
+        return $this->productRepository->findWhere(['category_id' => ['category_id', 'like', '%' .$idCategory. '%']]);
     }
 }
