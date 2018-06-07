@@ -37,4 +37,8 @@ use Illuminate\Http\Request;
     Route::resource('cupom', 'CupomController')->except([
         'create', 'edit', 'destroy'
     ]);
+
+    Route::resource('checkout', 'CheckoutController')->except([
+        'create', 'edit', 'destroy'
+    ]);
 // });
