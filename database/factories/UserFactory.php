@@ -59,3 +59,10 @@ $factory->define(\App\Entities\OrderItem::class, function (Faker $faker) {
 
     ];
 });
+
+$factory->define(\App\Entities\Cupom::class, function (Faker $faker) {
+    return [
+        'code'  => rand(100, 1000),
+        'value' => rand(50, 100)
+    ];
+});
