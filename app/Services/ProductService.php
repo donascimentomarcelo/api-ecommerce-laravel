@@ -25,8 +25,7 @@ class ProductService
 
     public function find($id)
     {
-        $data = $this->productRepository->findByField('id', $id);
-        $res = json_decode($data, true);
+        $res = $this->productRepository->findByField('id', $id)->first();
         if(!$res)
         {
             return response()->json([

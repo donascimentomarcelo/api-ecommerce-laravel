@@ -37,10 +37,8 @@ class ClientService
 
     public function find($id)
     {
-        $data = $this->userRepository->with('client')->findByfield('id', $id);
-        // $res = User::with('client')->find($id);
-        $res = json_decode($data, true);
-        if(empty($res))
+        $res = $this->userRepository->with('client')->findByfield('id', $id)->first();
+        if(!$res)
         {
             return response()->json([
                 'message' => 'O usuário de código '. $id .' não foi encontrado',

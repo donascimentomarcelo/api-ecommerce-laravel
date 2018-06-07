@@ -30,9 +30,8 @@ class CategoryService
 
     public function find($id)
     {
-        $data = $this->categoryRepository->findByField('id', $id);
-        $res = json_decode($data, true);
-        if(empty($res))
+        $res = $this->categoryRepository->findByField('id', $id)->first();
+        if(!$res)
         {
             return response()->json([
                 'message' => 'A categoria de código '. $id .' não foi encontrada',
