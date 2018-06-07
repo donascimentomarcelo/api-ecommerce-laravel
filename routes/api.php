@@ -33,4 +33,8 @@ use Illuminate\Http\Request;
     Route::resource('order', 'OrderController')->except([
         'create', 'edit', 'destroy'
     ]);
+
+    Route::resource('cupom', 'CupomController')->except([
+        'create', 'edit', 'destroy'
+    ]);
 // });
