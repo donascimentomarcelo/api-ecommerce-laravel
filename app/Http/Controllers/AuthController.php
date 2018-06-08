@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Tymon\JWTAuth\JWTAuth;
 use Illuminate\Http\Request;
 use App\Services\AuthService;
+use App\Http\Requests\AuthRequest;
 
 class AuthController extends Controller
 {
@@ -24,7 +25,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return void
      */
-    public function authenticate(Request $request)
+    public function authenticate(AuthRequest $request)
     {
         return $this->authService->authenticate($request->only('email', 'password'));
     }
