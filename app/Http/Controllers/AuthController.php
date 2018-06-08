@@ -23,4 +23,9 @@ class AuthController extends Controller
         return $this->authService->authenticate($request->only('email', 'password'));
     }
 
+    public function refreshToken()
+    {
+        return $this->authService->refreshToken();
+    }
+
 }
