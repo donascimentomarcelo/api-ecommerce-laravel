@@ -41,4 +41,6 @@ use Illuminate\Http\Request;
     Route::resource('checkout', 'CheckoutController')->except([
         'create', 'edit', 'destroy'
     ]);
+
+    Route::post('auth/login', ['uses' => 'AuthController@authenticate', 'as' => 'authentication.jwt']);
 // });

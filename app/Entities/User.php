@@ -6,24 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Authenticatable as AuthenticableTrait;
+
 /**
  * Class User.
  *
  * @package namespace App\Entities;
  */
-class User extends Model implements Transformable //, AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
+class User extends Model implements Transformable, Authenticatable
 {
-    use TransformableTrait;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-        // use Notifiable, Authenticatable, Authorizable, CanResetPassword;
+    use TransformableTrait, AuthenticableTrait;
 
     /**
      * The attributes that are mass assignable.
