@@ -25,7 +25,7 @@ class AuthService
                 return response()->json(['error' => 'Credenciais inválidas'], 401);
             }
         } catch (JWTException $e) {
-            return response()->json(['error' => 'O token não pode ser criado'], 500);
+            return response()->json(['error' => 'O token não pode ser criado'], 401);
         }
 
         return response()->json(compact('token'));
@@ -41,7 +41,7 @@ class AuthService
         try{
             $token = $this->jwtAuth->refresh($token);
         }catch(JWTException $e){
-            return response()->json(['error' => 'O token não pode ser criado'], 500);
+            return response()->json(['error' => 'O token não pode ser criado'], 401);
         }
 
         return response()->json(compact('token'));
@@ -57,7 +57,7 @@ class AuthService
         try{
             $this->jwtAuth->invalidate($token);
         }catch(JWTException $e){
-            return response()->json(['error' => 'Erro ao realizar logout'], 500);
+            return response()->json(['error' => 'Erro ao realizar logout'], 401);
         }
 
         return response()->json(['message' => 'Logout realizado'], 200);
@@ -73,15 +73,15 @@ class AuthService
 
         } catch (TokenExpiredException $e) {
 
-            return response()->json(['error' => 'Token expirado'], $e->getStatusCode());
+            return response()->json(['error' => 'Token expirado'], 401);
 
         } catch (TokenInvalidException $e) {
 
-            return response()->json(['error' => 'Token inválido'], $e->getStatusCode());
+            return response()->json(['error' => 'Token inválido'], 401);
 
         } catch (JWTException $e) {
 
-            return response()->json(['error' => 'Token ausente'], $e->getStatusCode());
+            return response()->json(['error' => 'Token ausente'], 401);
 
         }
 

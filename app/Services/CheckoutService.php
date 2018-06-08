@@ -1,35 +1,40 @@
 <?php
 
 namespace App\Services;
-use \App\Repositories\OrderRepository;
-use \App\Repositories\CupomRepository;
-use \App\Repositories\ProductRepository;
-use \App\Entities\Order;
 use \App\Entities\Cupom;
+use \App\Entities\Order;
 use \App\Entities\Product;
-use \Illuminate\Support\Facades\DB;
+use Tymon\JWTAuth\JWTAuth;
 use \League\Flysystem\Exception;
+use \Illuminate\Support\Facades\DB;
+use \App\Repositories\CupomRepository;
+use \App\Repositories\OrderRepository;
+use \App\Repositories\ProductRepository;
 
 class CheckoutService
 {
     private $orderRepository;
     private $cupomRepository;
     private $productRepository;
+    private $jWTAuth;
 
     public function __construct(
         OrderRepository $orderRepository,  
         CupomRepository $cupomRepository, 
-        ProductRepository $productRepository)
+        ProductRepository $productRepository,
+        JWTAuth $jWTAuth)
     {
         $this->orderRepository = $orderRepository;
         $this->cupomRepository = $cupomRepository;
         $this->productRepository = $productRepository;
+        $this->jWTAuth = $jWTAuth;
     }
 
     public function create($data)
     {
         \DB::beginTransaction();
         try{
+            $data['user_id'] = $this->jWTAuth->parseToken()->authenticate()->id;
             $data['status'] = 0;
     
             if(isset($data['cupom_code']))
