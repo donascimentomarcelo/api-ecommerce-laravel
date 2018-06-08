@@ -39,7 +39,7 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     ]);
 
     Route::resource('checkout', 'CheckoutController')->except([
-        'create', 'edit', 'destroy'
+        'create', 'edit', 'destroy', 'index', 'show', 'update'
     ]);
 
     Route::post('auth/getUser', ['uses' => 'AuthController@getAuthenticatedUser', 'as' => 'getUser.jwt']);
