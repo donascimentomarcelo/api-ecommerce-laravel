@@ -28,4 +28,8 @@ class AuthController extends Controller
         return $this->authService->refreshToken();
     }
 
+    public function logout()
+    {
+        return $this->authService->logout();
+    }
 }

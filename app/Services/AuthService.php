@@ -45,4 +45,20 @@ class AuthService
         return response()->json(compact('token'));
     }
 
+    public function logout()
+    {
+        $token = $this->jwtAuth->getToken();
+        if(!$token)
+        {
+            return response()->json(['error' => 'Acesso negado'], 401);
+        }
+        try{
+            $this->jwtAuth->invalidate($token);
+        }catch(JWTException $e){
+            return response()->json(['error' => 'Erro ao realizar logout'], 500);
+        }
+
+        return response()->json(['message' => 'Logout realizado'], 200);
+    }
+
 }
