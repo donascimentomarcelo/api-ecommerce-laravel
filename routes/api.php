@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::group(['prefix' => 'api'], function() {
+Route::group(['middleware' => 'jwt.auth'], function() {
     Route::resource('category', 'CategoryController')->except([
         'create', 'edit', 'destroy'
     ]);
@@ -42,8 +42,9 @@ use Illuminate\Http\Request;
         'create', 'edit', 'destroy'
     ]);
 
+    Route::post('auth/getUser', ['uses' => 'AuthController@getAuthenticatedUser', 'as' => 'getUser.jwt']);
+});
+
     Route::post('auth/login', ['uses' => 'AuthController@authenticate', 'as' => 'authentication.jwt']);
     Route::post('auth/refresh', ['uses' => 'AuthController@refreshToken', 'as' => 'refresh.jwt']);
     Route::post('auth/logout', ['uses' => 'AuthController@logout', 'as' => 'logout.jwt']);
-    Route::post('auth/getUser', ['uses' => 'AuthController@getAuthenticatedUser', 'as' => 'getUser.jwt']);
-// });
