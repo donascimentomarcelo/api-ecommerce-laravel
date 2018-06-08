@@ -45,4 +45,5 @@ use Illuminate\Http\Request;
     Route::post('auth/login', ['uses' => 'AuthController@authenticate', 'as' => 'authentication.jwt']);
     Route::post('auth/refresh', ['uses' => 'AuthController@refreshToken', 'as' => 'refresh.jwt']);
     Route::post('auth/logout', ['uses' => 'AuthController@logout', 'as' => 'logout.jwt']);
+    Route::post('auth/getUser', ['uses' => 'AuthController@getAuthenticatedUser', 'as' => 'getUser.jwt']);
 // });

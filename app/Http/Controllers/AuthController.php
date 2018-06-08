@@ -32,4 +32,9 @@ class AuthController extends Controller
     {
         return $this->authService->logout();
     }
+
+    public function getAuthenticatedUser()
+    {
+        return $this->authService->getAuthenticatedUser();
+    }
 }
