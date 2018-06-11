@@ -28,7 +28,9 @@ class AuthService
             return response()->json(['error' => 'O token não pode ser criado'], 401);
         }
 
-        return response()->json(compact('token'));
+        $user = $this->jwtAuth->authenticate($token);
+
+        return response()->json(compact('token', 'user'));
     }
 
     public function refreshToken()
