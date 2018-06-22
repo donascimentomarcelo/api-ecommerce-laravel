@@ -25,7 +25,7 @@ class AuthService
                 return response()->json(['error' => 'Credenciais inválidas', 'status' => 401], 401);
             }
         } catch (JWTException $e) {
-            return response()->json(['error' => 'O token não pode ser criado', 'status' => 401], 401);
+            return response()->json(['error' => 'O token não pode ser criado', 'message' => $e->getMessage(), 'status' => 401], 401);
         }
 
         $user = $this->jwtAuth->authenticate($token);
@@ -38,12 +38,12 @@ class AuthService
         $token = $this->jwtAuth->getToken();
         if(!$token)
         {
-            return response()->json(['error' => 'Acesso negado', 'status' => 401], 401);
+            return response()->json(['error' => 'O token não foi enviado', 'status' => 401], 401);
         }
         try{
             $token = $this->jwtAuth->refresh($token);
         }catch(JWTException $e){
-            return response()->json(['error' => 'O token não pode ser criado', 'status' => 401], 401);
+            return response()->json(['error' => 'O token não pode ser criado', 'message' => $e->getMessage(), 'status' => 401], 401);
         }
 
         return response()->json(compact('token'));
@@ -59,7 +59,7 @@ class AuthService
         try{
             $this->jwtAuth->invalidate($token);
         }catch(JWTException $e){
-            return response()->json(['error' => 'Erro ao realizar logout', 'status' => 401], 401);
+            return response()->json(['error' => 'Erro ao realizar logout', 'message' => $e->getMessage(), 'status' => 401], 401);
         }
 
         return response()->json(['message' => 'Logout realizado', 'status' => 200], 200);
@@ -75,15 +75,15 @@ class AuthService
 
         } catch (TokenExpiredException $e) {
 
-            return response()->json(['error' => 'Token expirado', 'status' => 401], 401);
+            return response()->json(['error' => 'Token expirado', 'message' => $e->getMessage(), 'status' => 401], 401);
 
         } catch (TokenInvalidException $e) {
 
-            return response()->json(['error' => 'Token inválido', 'status' => 401], 401);
+            return response()->json(['error' => 'Token inválido', 'message' => $e->getMessage(), 'status' => 401], 401);
 
         } catch (JWTException $e) {
 
-            return response()->json(['error' => 'Token ausente', 'status' => 401], 401);
+            return response()->json(['error' => 'Token ausente', 'message' => $e->getMessage(), 'status' => 401], 401);
 
         }
 
