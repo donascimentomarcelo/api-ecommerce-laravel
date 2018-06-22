@@ -20,7 +20,11 @@ class CategoryService
 
     public function create($category)
     {
-        return $this->categoryRepository->create($category);
+        $cat = $this->categoryRepository->create($category);
+
+        $cat->types()->sync($this->getTypeIds($category['types']));
+
+        return $cat;
     }
 
     public function update($category, $id)
@@ -43,5 +47,17 @@ class CategoryService
     public function findByName($name)
     {
         return $this->categoryRepository->findWhere(['name'=>['name', 'like', '%' . $name . '%']]);
+    }
+
+    public function getTypeIds($types)
+    {
+        $typesIds = [];
+
+        foreach($types as $t)
+        {
+            $typesIds[] = $t['id'];
+        }
+
+        return $typesIds;
     }
 }
