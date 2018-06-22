@@ -29,7 +29,11 @@ class CategoryService
 
     public function update($category, $id)
     {
-        return $this->categoryRepository->update($category, $id);
+        $cat = $this->categoryRepository->update($category, $id);
+        // dd($cat['id']);
+        $cat->types()->sync($this->getTypeIds($category['types']));
+
+        return $cat;
     }
 
     public function find($id)
