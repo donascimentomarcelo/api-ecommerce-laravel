@@ -15,7 +15,7 @@ class CategoryService
 
     public function list()
     {
-        return $this->categoryRepository->paginate(5);
+        return $this->categoryRepository->with(['types'])->paginate(5);
     }
 
     public function create($category)

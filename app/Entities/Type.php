@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Entities\Category;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
@@ -24,5 +25,10 @@ class Type extends Model implements Transformable
         'name',
         'status'
     ];
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'categories_types');
+    }
 
 }
