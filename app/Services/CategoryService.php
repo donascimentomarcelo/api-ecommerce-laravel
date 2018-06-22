@@ -34,7 +34,7 @@ class CategoryService
 
     public function find($id)
     {
-        $res = $this->categoryRepository->findByField('id', $id)->first();
+        $res = $this->categoryRepository->with(['types'])->findByField('id', $id)->first();
         if(!$res)
         {
             return response()->json([
@@ -46,7 +46,7 @@ class CategoryService
 
     public function findByName($name)
     {
-        return $this->categoryRepository->findWhere(['name'=>['name', 'like', '%' . $name . '%']]);
+        return $this->categoryRepository->with(['types'])->findWhere(['name'=>['name', 'like', '%' . $name . '%']]);
     }
 
     public function getTypeIds($types)
