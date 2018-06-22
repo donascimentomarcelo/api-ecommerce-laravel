@@ -66,3 +66,9 @@ $factory->define(\App\Entities\Cupom::class, function (Faker $faker) {
         'value' => rand(50, 100)
     ];
 });
+$factory->define(\App\Entities\Type::class, function (Faker $faker) {
+    return [
+        'name'  => $faker->word,
+        'status' => rand(0,1)
+    ];
+});

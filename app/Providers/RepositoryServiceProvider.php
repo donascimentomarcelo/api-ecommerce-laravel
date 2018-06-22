@@ -51,5 +51,9 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\CupomRepository',
             'App\Repositories\CupomRepositoryEloquent'
         );
+        $this->app->bind(
+            'App\Repositories\TypeRepository',
+            'App\Repositories\TypeRepositoryEloquent'
+        );
     }
 }
