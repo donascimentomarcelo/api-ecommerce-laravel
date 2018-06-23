@@ -42,6 +42,13 @@ Route::group(['middleware' => 'jwt.auth'], function() {
         'create', 'edit', 'destroy', 'index', 'show', 'update'
     ]);
 
+    Route::resource('type', 'TypeController')->except([
+        'create', 'edit', 'destroy', 'update', 'store'
+    ]);
+    
+    Route::get('types/getActives' ,['uses' => 'TypeController@listActives', 'as' => 'getActives.type']);
+    
+
     Route::post('auth/getUser', ['uses' => 'AuthController@getAuthenticatedUser', 'as' => 'getUser.jwt']);
 });
 
