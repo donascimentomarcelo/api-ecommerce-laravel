@@ -26,6 +26,14 @@ class Type extends Model implements Transformable
         'status'
     ];
 
+    public function transform()
+    {
+        return [
+            'name' => $this->name,
+            'status' => $this->status
+        ];
+    }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'categories_types');

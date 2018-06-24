@@ -34,5 +34,15 @@ class TypeRepositoryEloquent extends BaseRepository implements TypeRepository
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
+
+    /**
+     * Enabling the presenter in TypeRepository
+     *
+     * @return void
+     */
+    public function presenter()
+    {
+        return \Prettus\Repository\Presenter\ModelFractalPresenter::class;
+    }
     
 }
