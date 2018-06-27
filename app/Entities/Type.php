@@ -29,6 +29,7 @@ class Type extends Model implements Transformable
     public function transform()
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'status' => $this->status
         ];

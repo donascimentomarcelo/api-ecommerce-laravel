@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Services;
-use \App\Repositories\CategoryRepository;
 use \App\Entities\Category;
+use League\Flysystem\Exception;
+// use \Illuminate\Support\Facades\DB;
+use \App\Repositories\CategoryRepository;
 
 class CategoryService 
 {
@@ -20,20 +22,41 @@ class CategoryService
 
     public function create($category)
     {
-        $cat = $this->categoryRepository->create($category);
+        \DB::beginTransaction();
+        try{
+            $cat = $this->categoryRepository->create($category);
+    
+            $cat->types()->sync($this->getTypeIds($category['types']));
+            
+            \DB::commit();
 
-        $cat->types()->sync($this->getTypeIds($category['types']));
-
-        return $cat;
+            return $cat;
+        }
+        catch(Exception $e)
+        {
+            \DB::rollback();
+            throw $e;
+        }
     }
 
     public function update($category, $id)
     {
-        $cat = $this->categoryRepository->update($category, $id);
+        \DB::beginTransaction();
+        try{
+            $cat = $this->categoryRepository->update($category, $id);
 
-        $cat->types()->sync($this->getTypeIds($category['types']));
+            $cat->types()->sync($this->getTypeIds($category['types']));
 
-        return $cat;
+            \DB::commit();
+
+            return $cat;
+        }
+        catch(Exception $e)
+        {
+            \DB::rollback();
+            throw $e;
+        }
+        
     }
 
     public function find($id)
@@ -59,7 +82,7 @@ class CategoryService
 
         foreach($types as $t)
         {
-            $typesIds[] = $t['id'];
+            $typesIds[] = $t;
         }
 
         return $typesIds;
