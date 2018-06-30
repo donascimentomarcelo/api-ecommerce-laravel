@@ -49,7 +49,9 @@ class CategoryService
 
             \DB::commit();
 
-            return $cat;
+            $return = $this->categoryRepository->with('types')->find($id);
+
+            return $return;
         }
         catch(Exception $e)
         {
