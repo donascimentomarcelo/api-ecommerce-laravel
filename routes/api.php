@@ -18,6 +18,7 @@ Route::group(['middleware' => 'jwt.auth'], function() {
         'create', 'edit', 'destroy'
     ]);
     Route::get('category/findByName/{category}',['uses' => 'CategoryController@findByName', 'as' => 'category.findByName']);
+    Route::get('category/paginate/all',['uses' => 'CategoryController@paginate', 'as' => 'category.paginate']);
     
     Route::resource('product', 'ProductController')->except([
         'create', 'edit', 'destroy'

@@ -17,6 +17,11 @@ class CategoryService
 
     public function list()
     {
+        return $this->categoryRepository->all();
+    }
+
+    public function paginate()
+    {
         return $this->categoryRepository->with(['types'])->paginate(5);
     }
 

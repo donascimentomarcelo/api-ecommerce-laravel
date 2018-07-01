@@ -25,6 +25,11 @@ class CategoryController extends Controller
         return $this->categoryService->list();
     }
 
+    public function paginate()
+    {
+        return $this->categoryService->paginate();
+    }
+
     /**
      * Store a newly created resource in storage.
      *
