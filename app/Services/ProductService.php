@@ -15,7 +15,7 @@ class ProductService
 
     public function list()
     {
-        return $this->productRepository->paginate(10);
+        return $this->productRepository->with(['category'])->paginate(10);
     }
 
     public function create($product)
