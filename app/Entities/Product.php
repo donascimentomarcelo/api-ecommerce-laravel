@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Entities\Category;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
@@ -29,7 +30,7 @@ class Product extends Model implements Transformable
 
     public function category()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Category::class);
     }
 
 }

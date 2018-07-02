@@ -26,7 +26,7 @@ class ProductService
         try{
             $prod = $this->productRepository->create($product);
             
-            $result = $this->productRepository->with(['category'])->find($prod->id);
+            $result = $this->find($prod->id);
 
             \DB::commit();
 
@@ -40,7 +40,7 @@ class ProductService
 
     public function find($id)
     {
-        $res = $this->productRepository->findByField('id', $id)->first();
+        $res = $this->productRepository->with(['category'])->findByField('id', $id)->first();
         if(!$res)
         {
             return response()->json([
