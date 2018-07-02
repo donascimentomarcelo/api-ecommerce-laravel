@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Services;
-use \App\Repositories\ProductRepository;
 use \App\Entities\Product;
+use League\Flysystem\Exception;
+use Illuminate\Support\Facades\DB;
+use \App\Repositories\ProductRepository;
 
 class ProductService 
 {
@@ -20,7 +22,20 @@ class ProductService
 
     public function create($product)
     {
-        return $this->productRepository->create($product);
+        \DB::beginTransaction();
+        try{
+            $prod = $this->productRepository->create($product);
+            
+            $result = $this->productRepository->with(['category'])->find($prod->id);
+
+            \DB::commit();
+
+            return $result;
+        }catch(\Exception $e)
+        {
+            \DB::rollback();
+            throw $e;
+        }
     }
 
     public function find($id)
