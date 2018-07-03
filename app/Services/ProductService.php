@@ -52,7 +52,22 @@ class ProductService
 
     public function update($product, $id)
     {
-        return $this->productRepository->update($product, $id);
+      \DB::beginTransaction();
+      try{
+        $prod = $this->productRepository->update($product, $id);
+
+        $result = $this->find($prod->id);
+        
+        \DB::commit();
+        
+        return $result;
+      } 
+      catch(\Exception $e)
+      {
+        \DB::rollback();
+        throw $e;
+      } 
+      
     }
 
     public function findByName($name)
