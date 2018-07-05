@@ -72,7 +72,7 @@ class ProductService
 
     public function findByName($name)
     {
-        return $this->productRepository->findWhere(['name'=> ['name', 'like', '%' . $name . '%']]);
+        return $this->productRepository->with(['category'])->findWhere(['name'=> ['name', 'like', '%' . $name . '%']]);
     }
 
     public function findByCategory($idCategory)
