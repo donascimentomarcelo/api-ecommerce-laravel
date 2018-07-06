@@ -79,4 +79,15 @@ class ProductController extends Controller
     {
         return $this->productService->findByCategory($idCategory);
     }
+
+    /**
+     * Display all products relationship with name of category
+     *
+     * @param int $name
+     * @return \Illuminate\Http\Response
+     */
+    public function findByCategoryName($name)
+    {
+        return $this->productService->findByCategoryName($name);
+    }
 }

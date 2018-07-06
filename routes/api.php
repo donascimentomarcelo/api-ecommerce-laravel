@@ -25,6 +25,7 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     ]);
     Route::get('product/findByName/{product}',['uses' => 'ProductController@findByName', 'as' => 'product.findByName']);
     Route::get('product/findByCategory/{product}',['uses' => 'ProductController@findByCategory', 'as' => 'product.findByCategory']);
+    Route::get('product/findByCategoryName/{product}',['uses' => 'ProductController@findByCategoryName', 'as' => 'product.findByCategoryName']);
     
     Route::resource('client', 'ClientController')->except([
         'create', 'edit', 'destroy'

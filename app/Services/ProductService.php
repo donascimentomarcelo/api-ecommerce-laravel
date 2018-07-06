@@ -79,4 +79,11 @@ class ProductService
     {
         return $this->productRepository->findWhere(['category_id' => ['category_id', 'like', '%' .$idCategory. '%']]);
     }
+
+    public function findByCategoryName($categoryName)
+    {
+        return $this->productRepository->with(['category'])->whereHas('category', function($q) use($categoryName){
+            $q->where('categories.name', 'like', '%'.  $categoryName  .'%');
+        })->get();
+    }
 }
