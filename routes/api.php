@@ -28,7 +28,7 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::get('product/findByCategoryName/{product}',['uses' => 'ProductController@findByCategoryName', 'as' => 'product.findByCategoryName']);
     
     Route::resource('client', 'ClientController')->except([
-        'create', 'edit', 'destroy'
+        'create', 'edit', 'destroy', 'store'
     ]);
     Route::get('client/findByName/{client}',['uses' => 'ClientController@findByName', 'as' => 'client.findByName']);  
 
@@ -54,6 +54,7 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::post('auth/getUser', ['uses' => 'AuthController@getAuthenticatedUser', 'as' => 'getUser.jwt']);
 });
 
+    Route::post('client', ['uses' => 'ClientController@store', 'as' => 'store.client']);
     Route::post('auth/login', ['uses' => 'AuthController@authenticate', 'as' => 'authentication.jwt']);
     Route::post('auth/refresh', ['uses' => 'AuthController@refreshToken', 'as' => 'refresh.jwt']);
     Route::post('auth/logout', ['uses' => 'AuthController@logout', 'as' => 'logout.jwt']);

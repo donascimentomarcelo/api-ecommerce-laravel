@@ -28,9 +28,8 @@ class ClientRequest extends FormRequest
             'email'            => 'required|email|unique:users',
             'password'         => 'required|between:6,12',
             'password_confirmation' => 'same:password|required|between:6,12',
-            'role'             => 'required|in:client,admin',
             'client'           => 'required|array|min:1',
-            'client.phone'     => 'required|size:11',
+            'client.phone'     => 'required|between:11,12',
             'client.address'   => 'required|min:3|max:80',
             'client.city'      => 'required|min:3|max:80',
             'client.state'     => 'required|min:2|max:20',
@@ -48,9 +47,6 @@ class ClientRequest extends FormRequest
             'email.required'          => 'O e-mail é obrigatório',
             'email.email'             => 'E-mail inválido',
             'email.unique'            => 'E-mail já existente',
-
-            'role.required'           => 'O perfil é obrigatório',
-            'role.in'                 => 'Perfil inválido',
 
             'password.required'       => 'A senha é obrigatória',
             'password.between'        => 'A senha deve ter entre 6 e 12 caracteres',            
