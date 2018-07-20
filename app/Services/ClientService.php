@@ -62,4 +62,22 @@ class ClientService
         
         return $userUpdated;
     }
+
+    public function checkIfEmailExist($email)
+    {
+        $arr = $this->userRepository->findWhere(['email'=>['email', '=', $email ]]);
+
+        if(count($arr) == 0)
+        {
+            return response()->json([
+                'message' => 'O e-mail '. $email .' é valido',
+            ],200);
+        }
+        else
+        {
+            return response()->json([
+                'message' => 'O e-mail '. $email .' ja está sendo utilizado',
+            ],422);
+        }
+    }
 }

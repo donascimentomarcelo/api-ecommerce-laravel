@@ -55,6 +55,7 @@ Route::group(['middleware' => 'jwt.auth'], function() {
 });
 
     Route::post('client', ['uses' => 'ClientController@store', 'as' => 'store.client']);
+    Route::get('client/findIfEmailExist/{email}',['uses' => 'ClientController@findIfEmailExist', 'as' => 'check.email.client']);  
     Route::post('auth/login', ['uses' => 'AuthController@authenticate', 'as' => 'authentication.jwt']);
     Route::post('auth/refresh', ['uses' => 'AuthController@refreshToken', 'as' => 'refresh.jwt']);
     Route::post('auth/logout', ['uses' => 'AuthController@logout', 'as' => 'logout.jwt']);

@@ -59,6 +59,17 @@ class ClientController extends Controller
     }
 
     /**
+     * Check if email is able to be saved.
+     *
+     * @param string $email
+     * @return void
+     */
+    public function findIfEmailExist($email)
+    {
+        return $this->clientService->checkIfEmailExist($email);
+    }
+
+    /**
      * Update the specified client in storage.
      *
      * @param  \Illuminate\Http\Request  $request
