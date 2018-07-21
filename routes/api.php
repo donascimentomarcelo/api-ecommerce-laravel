@@ -30,7 +30,8 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::resource('client', 'ClientController')->except([
         'create', 'edit', 'destroy', 'store'
     ]);
-    Route::get('client/findByName/{client}',['uses' => 'ClientController@findByName', 'as' => 'client.findByName']);  
+    Route::get('client/findByName/{client}',['uses' => 'ClientController@findByName', 'as' => 'client.findByName']);
+    Route::post('client/sendPhoto', ['uses' => 'ClientController@sendPhoto', 'as' => 'sendPhoto.client']);  
 
     Route::resource('order', 'OrderController')->except([
         'create', 'edit', 'destroy'
@@ -55,7 +56,6 @@ Route::group(['middleware' => 'jwt.auth'], function() {
 });
 
     Route::post('client', ['uses' => 'ClientController@store', 'as' => 'store.client']);
-    Route::post('client/sendPhoto', ['uses' => 'ClientController@sendPhoto', 'as' => 'sendPhoto.client']);
     Route::get('client/findIfEmailExist/{email}',['uses' => 'ClientController@findIfEmailExist', 'as' => 'check.email.client']);  
     Route::post('auth/login', ['uses' => 'AuthController@authenticate', 'as' => 'authentication.jwt']);
     Route::post('auth/refresh', ['uses' => 'AuthController@refreshToken', 'as' => 'refresh.jwt']);

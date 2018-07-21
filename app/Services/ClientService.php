@@ -4,6 +4,7 @@ namespace App\Services;
 use Aws\S3\S3Client;
 use \App\Entities\User;
 use \App\Entities\Client;
+use Tymon\JWTAuth\JWTAuth;
 use Aws\Credentials\Credentials;
 use Aws\S3\Exception\S3Exception;
 use \App\Repositories\UserRepository;
@@ -15,11 +16,16 @@ class ClientService
 {
     private $userRepository;
     private $clientRepository;
+    private $jWTAuth;
 
-    public function __construct(UserRepository $userRepository, ClientRepository $clientRepository)
+    public function __construct(
+        UserRepository $userRepository, 
+        ClientRepository $clientRepository,
+        JWTAuth $jWTAuth)
     {
         $this->userRepository = $userRepository;
         $this->clientRepository = $clientRepository;
+        $this->jWTAuth = $jWTAuth;
     }
 
     public function list()
@@ -90,9 +96,9 @@ class ClientService
 
     public function renameImage($request)
     {
-        //No lugar do time() deverá ficar o id do usuário logado
+        $id = $this->jWTAuth->parseToken()->authenticate()->id;
 
-        $return['filenametostore'] = 'client'.time().'.'.$request->file('file')->getClientOriginalExtension();
+        $return['filenametostore'] = 'client'.$id.'.'.$request->file('file')->getClientOriginalExtension();
 
         return $return;
     }
