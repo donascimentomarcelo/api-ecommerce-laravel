@@ -9,6 +9,7 @@ use Aws\S3\Exception\S3Exception;
 use \App\Repositories\UserRepository;
 use \App\Repositories\ClientRepository;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class ClientService 
 {
@@ -82,14 +83,16 @@ class ClientService
     {
         $image = $this->renameImage($request);
         
-        Storage::disk('s3')->put($image['filenametostore'], fopen($request->file('file'), 'r+'), 'public');
+        $resizedImage = Image::make($request->file('file')->getRealPath())->resize(200, 200)->stream();
+
+        Storage::disk('s3')->put($image['filenametostore'], $resizedImage->__toString() , 'public');
     }
 
     public function renameImage($request)
     {
-        $return['filename'] = pathinfo($request->file('file')->getClientOriginalName(), PATHINFO_FILENAME);
+        //No lugar do time() deverá ficar o id do usuário logado
 
-        $return['filenametostore'] = $return['filename'].'_'.time().'.'.$request->file('file')->getClientOriginalExtension();
+        $return['filenametostore'] = 'client'.time().'.'.$request->file('file')->getClientOriginalExtension();
 
         return $return;
     }
