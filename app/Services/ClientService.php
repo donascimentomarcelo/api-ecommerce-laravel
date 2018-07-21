@@ -5,27 +5,30 @@ use Aws\S3\S3Client;
 use \App\Entities\User;
 use \App\Entities\Client;
 use Tymon\JWTAuth\JWTAuth;
+use App\Services\ImageService;
 use Aws\Credentials\Credentials;
 use Aws\S3\Exception\S3Exception;
 use \App\Repositories\UserRepository;
 use \App\Repositories\ClientRepository;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManagerStatic as Image;
 
 class ClientService 
 {
     private $userRepository;
     private $clientRepository;
     private $jWTAuth;
+    private $imageService;
 
     public function __construct(
         UserRepository $userRepository, 
         ClientRepository $clientRepository,
-        JWTAuth $jWTAuth)
+        JWTAuth $jWTAuth,
+        ImageService $imageService)
     {
         $this->userRepository = $userRepository;
         $this->clientRepository = $clientRepository;
         $this->jWTAuth = $jWTAuth;
+        $this->imageService = $imageService;
     }
 
     public function list()
@@ -89,7 +92,10 @@ class ClientService
     {
         $image = $this->renameImage($request);
         
-        $resizedImage = Image::make($request->file('file')->getRealPath())->resize(200, 200)->stream();
+        $width = 200; 
+        $height = 200;
+
+        $resizedImage = $this->imageService->resizeImage($request, $width, $height);
 
         Storage::disk('s3')->put($image['filenametostore'], $resizedImage->__toString() , 'public');
     }
