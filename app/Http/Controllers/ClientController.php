@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Aws\S3\S3Client;
 use Illuminate\Http\Request;
+use League\Flysystem\Exception;
 use \App\Services\ClientService;
+use Aws\Credentials\Credentials;
+use Aws\S3\Exception\S3Exception;
 use \App\Http\Requests\ClientRequest;
+use Illuminate\Support\Facades\Storage;
 use \App\Http\Requests\ClientUpdateRequest;
 
 class ClientController extends Controller
@@ -79,6 +84,11 @@ class ClientController extends Controller
     public function update(ClientUpdateRequest $request, $id)
     {
         return $this->clientService->update($request->all(), $id);
+    }
+
+    public function sendPhoto(Request $request)
+    {
+        return $this->clientService->sendImageToAws($request);
     }
 
 }

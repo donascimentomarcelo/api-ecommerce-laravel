@@ -5,6 +5,9 @@ use \App\Repositories\UserRepository;
 use \App\Repositories\ClientRepository;
 use \App\Entities\User;
 use \App\Entities\Client;
+use Aws\S3\S3Client;
+use Aws\Credentials\Credentials;
+use Aws\S3\Exception\S3Exception;
 
 class ClientService 
 {
@@ -72,5 +75,55 @@ class ClientService
             $error['message'] = 'O e-mail '. $email .' ja está sendo utilizado';
             return response()->json([$error],422);
         }
+    }
+
+    public function sendImageToAws($request)
+    {
+
+        $s3Client = $this->doConnectionWithAws();
+
+        $image = $this->renameImage($request);
+
+        try{    
+            $result = $s3Client->putObject(array(
+                'Bucket'     => 'eccomerceapp',
+                'Key'        => $image['filenametostore'],
+                'SourceFile' => $image['file_tmp'],
+                'ACL'        => 'public-read'
+            ));
+        }catch(Exception $d){
+            echo $e->getMessage();
+        }
+         
+    }
+
+    public function doConnectionWithAws()
+    {
+        $credentials = new Credentials(env('AWS_ACCESS_KEY_ID'), env('AWS_SECRET_ACCESS_KEY'));
+
+        try {
+            $s3Client = S3Client::factory(array(
+                'credentials' => $credentials,
+                'region' => 'sa-east-1',
+                'version' => 'latest'
+            ));
+            return $s3Client;
+        } catch (S3Exception $e) {
+            return response()->json([
+                'message' => 'A imagem não poderá ser alterada no momento! Tente mais tarde.',
+            ],403);
+            print_r($e->getMessage());
+        }
+    }
+
+    public function renameImage($request)
+    {
+        $return['filename'] = pathinfo($request->file('file')->getClientOriginalName(), PATHINFO_FILENAME);
+
+        $return['filenametostore'] = $return['filename'].'_'.time().'.'.$request->file('file')->getClientOriginalExtension();
+
+        $return['file_tmp'] = $request->file('file')->getPathName();
+
+        return $return;
     }
 }
