@@ -9,8 +9,8 @@ use \App\Services\ClientService;
 use Aws\Credentials\Credentials;
 use Aws\S3\Exception\S3Exception;
 use \App\Http\Requests\ClientRequest;
-use Illuminate\Support\Facades\Storage;
 use \App\Http\Requests\ClientUpdateRequest;
+
 
 class ClientController extends Controller
 {

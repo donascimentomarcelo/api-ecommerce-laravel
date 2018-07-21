@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Services;
-use \App\Repositories\UserRepository;
-use \App\Repositories\ClientRepository;
+use Aws\S3\S3Client;
 use \App\Entities\User;
 use \App\Entities\Client;
-use Aws\S3\S3Client;
 use Aws\Credentials\Credentials;
 use Aws\S3\Exception\S3Exception;
+use \App\Repositories\UserRepository;
+use \App\Repositories\ClientRepository;
+use Illuminate\Support\Facades\Storage;
 
 class ClientService 
 {
@@ -79,41 +80,9 @@ class ClientService
 
     public function sendImageToAws($request)
     {
-
-        $s3Client = $this->doConnectionWithAws();
-
         $image = $this->renameImage($request);
-
-        try{    
-            $result = $s3Client->putObject(array(
-                'Bucket'     => 'eccomerceapp',
-                'Key'        => $image['filenametostore'],
-                'SourceFile' => $image['file_tmp'],
-                'ACL'        => 'public-read'
-            ));
-        }catch(Exception $d){
-            echo $e->getMessage();
-        }
-         
-    }
-
-    public function doConnectionWithAws()
-    {
-        $credentials = new Credentials(env('AWS_ACCESS_KEY_ID'), env('AWS_SECRET_ACCESS_KEY'));
-
-        try {
-            $s3Client = S3Client::factory(array(
-                'credentials' => $credentials,
-                'region' => 'sa-east-1',
-                'version' => 'latest'
-            ));
-            return $s3Client;
-        } catch (S3Exception $e) {
-            return response()->json([
-                'message' => 'A imagem não poderá ser alterada no momento! Tente mais tarde.',
-            ],403);
-            print_r($e->getMessage());
-        }
+        
+        Storage::disk('s3')->put($image['filenametostore'], fopen($request->file('file'), 'r+'), 'public');
     }
 
     public function renameImage($request)
@@ -121,8 +90,6 @@ class ClientService
         $return['filename'] = pathinfo($request->file('file')->getClientOriginalName(), PATHINFO_FILENAME);
 
         $return['filenametostore'] = $return['filename'].'_'.time().'.'.$request->file('file')->getClientOriginalExtension();
-
-        $return['file_tmp'] = $request->file('file')->getPathName();
 
         return $return;
     }
