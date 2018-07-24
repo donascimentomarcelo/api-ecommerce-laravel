@@ -6,8 +6,10 @@ use \App\Entities\User;
 use \App\Entities\Client;
 use Tymon\JWTAuth\JWTAuth;
 use App\Services\ImageService;
+use League\Flysystem\Exception;
 use Aws\Credentials\Credentials;
 use Aws\S3\Exception\S3Exception;
+use Illuminate\Support\Facades\DB;
 use \App\Repositories\UserRepository;
 use \App\Repositories\ClientRepository;
 use Illuminate\Support\Facades\Storage;
@@ -18,6 +20,8 @@ class ClientService
     private $clientRepository;
     private $jWTAuth;
     private $imageService;
+    public static $width = 200;
+    public static $height = 200;
 
     public function __construct(
         UserRepository $userRepository, 
@@ -68,13 +72,23 @@ class ClientService
 
     public function update($user, $id)
     {
-        $user['password'] = bcrypt($user['password']);
+        DB::beginTransaction();
+        try{
+            $userUpdated = $this->userRepository->with(['client'])->find($id);
 
-        $userUpdated = $this->userRepository->with(['client'])->update($user, $id);
-        
-        $userUpdated['client'] = $this->clientRepository->update($user['client'], $userUpdated['client']['id']);
-        
-        return $userUpdated;
+            $userUpdated->name  = $user['name'];
+            $userUpdated->email = $user['email'];
+            $userUpdated->save();
+            
+            $userUpdated['client'] = $this->clientRepository->update($user['client'], $userUpdated['client']['id']);
+            
+            DB::commit();
+
+            return $userUpdated;
+        }catch(Exception $e){
+            DB::rollback();
+            return $e->getMessage();
+        }
     }
 
     public function checkIfEmailExist($email)
@@ -92,10 +106,7 @@ class ClientService
     {
         $image = $this->renameImage($request);
         
-        $width = 200; 
-        $height = 200;
-
-        $resizedImage = $this->imageService->resizeImage($request, $width, $height);
+        $resizedImage = $this->imageService->resizeImage($request, self::$width, self::$height);
 
         Storage::disk('s3')->put($image['filenametostore'], $resizedImage->__toString() , 'public');
     }
