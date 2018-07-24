@@ -26,9 +26,6 @@ class ClientUpdateRequest extends FormRequest
         return [
             'name'             => 'required|min:3|max:80',
             'email'            => 'required|email',
-            'password'         => 'required|between:6,12',
-            'password_confirmation' => 'same:password|required|between:6,12',
-            'role'             => 'required|in:client,admin',
             'client'           => 'required|array|min:1',
             'client.phone'     => 'required|size:11',
             'client.address'   => 'required|min:3|max:80',
@@ -47,16 +44,6 @@ class ClientUpdateRequest extends FormRequest
 
             'email.required'          => 'O e-mail é obrigatório',
             'email.email'             => 'E-mail inválido',
-
-            'role.required'           => 'O perfil é obrigatório',
-            'role.in'                 => 'Perfil inválido',
-
-            'password.required'       => 'A senha é obrigatória',
-            'password.between'        => 'A senha deve ter entre 6 e 12 caracteres',            
-            
-            'password_confirmation.required'  => 'A confirmação de senha é obrigatória',
-            'password_confirmation.between'   => 'A confirmação deve ter entre 6 e 12 caracteres',
-            'password_confirmation.same'      => 'As senhas estão diferentes',
 
             'client.required'         => 'Envie os dados do cliente',
 
